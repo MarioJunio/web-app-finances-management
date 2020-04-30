@@ -1,0 +1,15 @@
+<div style="display: block">
+
+</div>
+
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile style="flex-direction: column;">
+    <canvas baseChart title="Lançamentos por Categoria" [data]="pieChartData" [labels]="pieChartLabels"
+      [chartType]="pieChartType"></canvas>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <canvas baseChart title="Lançamentos por Mês" [data]="lineChartData" [labels]="lineChartLabels"
+      [chartType]="lineChartType"></canvas>
+  </mat-grid-tile>
+</mat-grid-list>

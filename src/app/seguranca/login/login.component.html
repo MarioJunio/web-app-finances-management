@@ -1,0 +1,27 @@
+<div class="container-view" *ngIf="!authService.autenticado">
+
+  <mat-card class="container-login-form">
+
+    <h4>Autenticação</h4>
+
+    <form autocomplete="on" #form="ngForm" (submit)="login(email, senha)">
+      <mat-form-field class="form-field">
+        <input autocomplete="email" matInput name="email" type="email" placeholder="Email" ngModel #email="ngModel"
+          required>
+        <mat-error *ngIf="email.invalid && email.dirty">Endereço de email está inválido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <input autocomplete="current-password" matInput name="senha" type="password" placeholder="Senha" ngModel
+          #senha="ngModel" required />
+        <mat-error *ngIf="senha.invalid && senha.dirty">Informe a senha</mat-error>
+      </mat-form-field>
+
+      <button mat-flat-button type="submit" color="primary" class="form-button"
+        [disabled]="form.invalid">Entrar</button>
+
+    </form>
+
+  </mat-card>
+
+</div>

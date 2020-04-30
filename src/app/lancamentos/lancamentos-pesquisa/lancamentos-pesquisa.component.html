@@ -1,0 +1,66 @@
+<div class="container-fluid">
+
+  <section class="pesquisa-lancamentos">
+    <h2>Lançamentos</h2>
+
+    <form autocomplete="off" (submit)="consultar(0)" #lancamentoPesquisa="ngForm">
+
+      <div class="row">
+
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Descrição" name="descricao" [(ngModel)]="filtro.descricao" />
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 col-lg-3">
+
+          <mat-form-field>
+            <input matInput [matDatepicker]="dataInicial" placeholder="Data inicial" name="dataVencimentoInicio"
+              [(ngModel)]="filtro.dataVencimentoInicio" />
+            <mat-datepicker-toggle matSuffix [for]="dataInicial"></mat-datepicker-toggle>
+            <mat-datepicker #dataInicial></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4 col-lg-2">
+          <mat-form-field>
+            <input matInput [matDatepicker]="dataFinal" placeholder="Data final" name="dataVencimentoFim"
+              [(ngModel)]="filtro.dataVencimentoFim" />
+            <mat-datepicker-toggle matSuffix [for]="dataFinal"></mat-datepicker-toggle>
+            <mat-datepicker #dataFinal></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <button mat-raised-button color="primary" [disabled]="lancamentoPesquisa.invalid">Pesquisar</button>
+        </div>
+      </div>
+
+    </form>
+  </section>
+
+  <section class="gap-top-greater">
+
+    <div class="row">
+      <div class="col-md-2">
+        <a mat-raised-button routerLink="/lancamentos/novo">Novo</a>
+      </div>
+    </div>
+
+    <app-lancamentos-grid [dataSource]="dataSource"
+      [columns]="['descricao', 'pessoa', 'tipo', 'valor', 'dataVencimento', 'dataPagamento', 'acoes']"
+      [pagina]="filtro.pagina" [tamanhoPagina]="filtro.tamanhoPagina" [quantidadeItens]="filtro.quantidadeItens"
+      (paginaAlterada)="consultar($event)" (lancamentoExcluido)="excluir($event)">
+    </app-lancamentos-grid>
+
+
+  </section>
+
+</div>

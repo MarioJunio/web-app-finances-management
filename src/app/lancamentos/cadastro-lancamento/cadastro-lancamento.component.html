@@ -1,0 +1,114 @@
+<header class="title">
+  <h3>{{ isEdicao ? ('Edição de ' + lancamentoForm.get('descricao').value) : 'Novo' }} Lançamento</h3>
+</header>
+
+<section>
+  <form [formGroup]="lancamentoForm" action="/cadastro" method="POST" autocomplete="off" (submit)="persistir()">
+
+    <div class="row">
+
+      <div class="col-md-12" [style.marginBottom]="'20px'">
+        <mat-button-toggle-group name="tipo" formControlName="tipoLancamento" required>
+          <mat-button-toggle *ngFor="let t of tipos" [value]="t.value">{{t.label}}</mat-button-toggle>
+        </mat-button-toggle-group>
+
+        <app-message-validate [control]="lancamentoForm.get('tipoLancamento')" error="required"
+          message="Selecione o tipo do lançamento">
+        </app-message-validate>
+      </div>
+
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <mat-form-field>
+          <input matInput [matDatepicker]="dv" formControlName="dataVencimento" placeholder="Data vencimento"
+            name="dataVencimento" required />
+          <mat-datepicker-toggle matSuffix [for]="dv"></mat-datepicker-toggle>
+          <mat-datepicker #dv></mat-datepicker>
+        </mat-form-field>
+
+        <app-message-validate [control]="lancamentoForm.get('dataVencimento')" error="required"
+          message="Informe a data de vencimento">
+        </app-message-validate>
+      </div>
+
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <mat-form-field>
+          <input matInput [matDatepicker]="dp" formControlName="dataPagamento"
+            [placeholder]="'Data ' + (tipo == 'RECEITA' ? 'recebimento': 'pagamento')" name="dataPagamento" required>
+          <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker #dp></mat-datepicker>
+        </mat-form-field>
+
+        <app-message-validate [control]="lancamentoForm.get('dataPagamento')" error="required"
+          [message]="'Informe a data de ' + (tipo == 'RECEITA' ? 'recebimento' : 'pagamento')">
+        </app-message-validate>
+      </div>
+
+      <div class="col-md-10">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Descrição" name="descricao" formControlName="descricao" required minlength="3" />
+        </mat-form-field>
+
+        <app-message-validate [control]="lancamentoForm.get('descricao')" error="required"
+          message="Descrição deve ser informada">
+        </app-message-validate>
+
+      </div>
+
+      <div class="col-md-2">
+        <mat-form-field class="full-width">
+          <input matInput currencyMask formControlName="valor"
+            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', allowNegative: false }" placeholder="Valor"
+            name="valor" required />
+        </mat-form-field>
+
+        <app-message-validate [control]="lancamentoForm.get('valor')" error="required"
+          message="Valor deve ser informado">
+        </app-message-validate>
+      </div>
+
+      <div class="col-md-6" formGroupName="categoria">
+        <mat-form-field class="full-width">
+          <mat-label>Categorias</mat-label>
+          <mat-select name="categorias" formControlName="codigo" required>
+            <mat-option *ngFor="let c of categorias" [value]="c.codigo">{{c.nome}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <app-message-validate [control]="lancamentoForm.get('categoria').get('codigo')" error="required"
+          message="Informe a categoria">
+        </app-message-validate>
+      </div>
+
+      <div class="col-md-6" formGroupName="pessoa">
+        <mat-form-field class="full-width">
+          <input type="text" placeholder="Pessoas" formControlName="nome" [formControl]="pessoasFormControl" matInput
+            [matAutocomplete]="auto" (blur)="verificarPessoa()" required />
+
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let p of pessoasFiltered | async" [value]="p.nome" (click)="selecionarPessoa(p)">
+              {{p.nome}}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <app-message-validate [control]="lancamentoForm.get('pessoa').get('codigo')" error="required"
+          message="Informe a pessoa">
+        </app-message-validate>
+      </div>
+
+      <mat-form-field class="col-md-12">
+        <textarea matInput placeholder="Observação" formControlName="observacao"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <button mat-flat-button color="primary" type="submit">Salvar</button>
+        &nbsp;&nbsp;&nbsp;
+        <a mat-stroked-button (click)="novo()">Novo</a>
+        &nbsp;&nbsp;&nbsp;
+        <a mat-flat-button routerLink="/lancamentos">Voltar para pesquisa</a>
+      </div>
+    </div>
+
+  </form>
+</section>

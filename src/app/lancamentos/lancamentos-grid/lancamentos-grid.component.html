@@ -1,0 +1,91 @@
+<section class="gap-top-small">
+
+  <div class="example-container mat-elevation-z8" *ngIf="dataSource.data.length > 0">
+    <mat-table #table [dataSource]="dataSource" [class.isMobile]="isMobile">
+
+      <!-- Descricao Column -->
+      <ng-container matColumnDef="descricao">
+        <mat-header-cell *matHeaderCellDef>Descrição </mat-header-cell>
+        <mat-cell *matCellDef="let lancamento">
+          <span class="mobile-label">Descrição:</span>
+          <span class="mobile-value">{{lancamento.descricao}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Pessoa Column -->
+      <ng-container matColumnDef="pessoa">
+        <mat-header-cell *matHeaderCellDef> Pessoa </mat-header-cell>
+        <mat-cell *matCellDef="let lancamento">
+          <span class="mobile-label">Pessoa:</span>
+          <span class="mobile-value">{{lancamento.pessoa.nome}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Tipo Column -->
+      <ng-container matColumnDef="tipo">
+        <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+        <mat-cell *matCellDef="let lancamento">
+          <span class="mobile-label">Tipo:</span>
+          <span class="mobile-value">{{lancamento.tipoLancamento}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Valor Column -->
+      <ng-container matColumnDef="valor">
+        <mat-header-cell *matHeaderCellDef> Valor </mat-header-cell>
+        <mat-cell *matCellDef="let lancamento">
+          <span class="mobile-label">Valor:</span>
+          <span class="mobile-value">{{lancamento.valor | currency:"BRL"}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Data vencimento Column -->
+      <ng-container matColumnDef="dataVencimento">
+        <mat-header-cell *matHeaderCellDef> Data vencimento </mat-header-cell>
+        <mat-cell *matCellDef="let lancamento">
+          <span class="mobile-label">Data vencimento:</span>
+          <span
+            class="mobile-value">{{lancamento.dataVencimento == null ? 'Não há vencimento' : lancamento.dataVencimento | date:"dd/MM/y"}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Data pagamento Column -->
+      <ng-container matColumnDef="dataPagamento">
+        <mat-header-cell *matHeaderCellDef> Data pagamento </mat-header-cell>
+        <mat-cell *matCellDef="let lancamento">
+          <span class="mobile-label">Data pagamento:</span>
+          <span
+            class="mobile-value">{{lancamento.dataPagamento == null ? 'Não há pagamento' : lancamento.dataPagamento | date:"dd/MM/y"}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Acoes Column -->
+      <ng-container matColumnDef="acoes">
+        <mat-header-cell *matHeaderCellDef class="text-center"> </mat-header-cell>
+        <mat-cell *matCellDef="let lancamento" class="mat-col-actions">
+
+          <a href="javascript:;" mat-button matTooltip="Editar" [matTooltipPosition]="'above'"
+            [routerLink]="['/lancamentos', lancamento.codigo]"
+            *ngIf="authService.temPermissao('ROLE_CADASTRAR_LANCAMENTO')">
+            <mat-icon>edit</mat-icon>
+          </a>
+
+          <a href="javascript:;" (click)="excluirConfirmacao(lancamento)" mat-button matTooltip="Excluir"
+            [matTooltipPosition]="'above'" *ngIf="authService.temPermissao('ROLE_REMOVER_LANCAMENTO')">
+            <mat-icon>delete</mat-icon>
+          </a>
+
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [length]="quantidadeItens" [pageSize]="tamanhoPagina" (page)="alterarPagina($event)"
+      showFirstLastButtons>
+    </mat-paginator>
+  </div>
+
+  <mat-card *ngIf="dataSource.data.length <= 0">Não foi encontrado nenhum lançamento</mat-card>
+</section>

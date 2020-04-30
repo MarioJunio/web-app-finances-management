@@ -1,0 +1,18 @@
+<!-- Rendereza dashboard usuario ja esta autenticado -->
+<mat-drawer-container class="sidenav-drawer-container">
+  <mat-drawer #sidenav mode="side" [style.backgroundColor]="'#3f51b5'">
+    <app-sidenav-menu *ngIf="!isLogin"></app-sidenav-menu>
+  </mat-drawer>
+  <mat-drawer-content>
+
+    <app-navbar [sidenav]="sidenav" *ngIf="!isLogin"></app-navbar>
+
+    <section class="container-fluid">
+      <router-outlet></router-outlet>
+    </section>
+
+  </mat-drawer-content>
+</mat-drawer-container>
+
+<!-- Toasty messages global -->
+<ng2-toasty></ng2-toasty>

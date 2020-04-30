@@ -1,0 +1,100 @@
+<header class="title">
+  <h3>{{ isEdicao ? ('Editando ' + pessoa.nome) : 'Cadastrando nova pessoa' }}</h3>
+</header>
+
+<section>
+  <form action="/cadastro" method="POST" autocomplete="off" #cadastroPessoa="ngForm" (submit)="salvar(cadastroPessoa)">
+
+    <div class="row">
+
+      <div class="col-md-12">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Nome" #nomeControl="ngModel" name="nome" [(ngModel)]="pessoa.nome" required />
+        </mat-form-field>
+
+        <app-message-validate [control]="nomeControl" error="required" message="Informe o nome"></app-message-validate>
+      </div>
+
+      <div class="col-md-4 col-sm-12">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Logradouro" name="logradouro" #logradouroControl="ngModel"
+            [(ngModel)]="pessoa.endereco.logradouro" required />
+        </mat-form-field>
+
+        <app-message-validate [control]="logradouroControl" error="required" message="Informe o logradouro">
+        </app-message-validate>
+      </div>
+
+      <div class="col-md-2 col-sm-12">
+        <mat-form-field class="full-width">
+          <input matInput mask="000000" placeholder="Número" name="numero" #numeroControl="ngModel"
+            [(ngModel)]="pessoa.endereco.numero" required />
+        </mat-form-field>
+
+        <app-message-validate [control]="numeroControl" error="required" message="Informe o número">
+        </app-message-validate>
+      </div>
+
+      <div class="col-md-4 col-sm-12">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Bairro" name="bairro" #bairroControl="ngModel"
+            [(ngModel)]="pessoa.endereco.bairro" required />
+        </mat-form-field>
+
+        <app-message-validate [control]="bairroControl" error="required" message="Informe o bairro">
+        </app-message-validate>
+      </div>
+
+      <div class="col-md-2 col-sm-12">
+        <mat-form-field class="full-width">
+          <input matInput mask="00.000-000" placeholder="CEP" name="cep" #cepControl="ngModel"
+            [(ngModel)]="pessoa.endereco.cep" required />
+        </mat-form-field>
+
+        <app-message-validate [control]="cepControl" error="required" message="Informe o cep">
+        </app-message-validate>
+      </div>
+
+      <mat-form-field class="col-md-12 col-sm-12">
+        <input matInput placeholder="Complemento" name="complemento" [(ngModel)]="pessoa.endereco.complemento" />
+      </mat-form-field>
+
+      <div class="col-md-4 col-sm-12">
+        <mat-form-field class="full-width">
+          <mat-label>Estado</mat-label>
+          <mat-select name="estado" #estadoControl="ngModel" [(ngModel)]="pessoa.endereco.estado"
+            (selectionChange)="estadoSelecionado($event)" required>
+            <mat-option *ngFor="let estado of estados" [value]="estado">{{estado}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <app-message-validate [control]="estadoControl" error="required" message="Selecione o estado">
+        </app-message-validate>
+      </div>
+
+      <div class="col-md-8 col-sm-12">
+        <mat-form-field class="full-width">
+          <mat-label>Cidade</mat-label>
+          <mat-select name="cidade" #cidadeControl="ngModel" [(ngModel)]="pessoa.endereco.cidade" required>
+            <mat-option *ngFor="let cidade of cidadesEstado" [value]="cidade.nome">{{cidade.nome}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <app-message-validate [control]="cidadeControl" error="required" message="Selecione a cidade">
+        </app-message-validate>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <button type="submit" mat-flat-button color="primary" [disabled]="cadastroPessoa.invalid">Salvar</button>
+        &nbsp;&nbsp;&nbsp;
+        <a href="javascript:;" (click)="limpar(cadastroPessoa)" mat-stroked-button>Nova</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="javascript:;" routerLink="/pessoas" mat-flat-button>Voltar para pesquisa</a>
+      </div>
+    </div>
+
+  </form>
+</section>

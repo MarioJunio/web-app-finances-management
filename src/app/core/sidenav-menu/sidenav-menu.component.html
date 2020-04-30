@@ -1,0 +1,22 @@
+<ul class="sidenav-menu">
+
+  <li class="sidenav-menu-user">
+    <div class="menu-user-logged">{{authService.jwtToken?.nome}}</div>
+  </li>
+
+  <li class="sidenav-menu-item" routerLinkActive="active" *ngIf="authService.temPermissao('ROLE_PESQUISAR_LANCAMENTO')">
+    <div><a href="#" routerLink="/dashboard">Dashboard</a></div>
+  </li>
+
+  <li class="sidenav-menu-item" routerLinkActive="active" *ngIf="authService.temPermissao('ROLE_PESQUISAR_PESSOA')">
+    <div><a href="#" routerLink="/pessoas">Pessoas</a></div>
+  </li>
+
+  <li class="sidenav-menu-item" routerLinkActive="active" *ngIf="authService.temPermissao('ROLE_PESQUISAR_LANCAMENTO')">
+    <div><a href="#" routerLink="/lancamentos">Lançamentos</a></div>
+  </li>
+
+  <li class="sidenav-menu-item" routerLinkActive="active">
+    <div><a href="javascript:;" (click)="logout()">Sair</a></div>
+  </li>
+</ul>

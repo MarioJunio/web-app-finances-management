@@ -1,0 +1,73 @@
+<section class="gap-top-small">
+
+  <div class="example-container mat-elevation-z8" *ngIf="dataSource.data.length > 0">
+
+    <mat-table #table [dataSource]="dataSource" [class.isMobile]="isMobile">
+
+      <!-- Nome Column -->
+      <ng-container matColumnDef="nome">
+        <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+        <mat-cell *matCellDef="let pessoa">
+          <span class="mobile-label">Nome:</span>
+          <span class="mobile-value">{{pessoa.nome}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Logradouro Column -->
+      <ng-container matColumnDef="logradouro">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'col-normal-width'">Logradouro</mat-header-cell>
+        <mat-cell *matCellDef="let pessoa" [ngClass]="'col-normal-width'">
+          <span class="mobile-label">Logradouro:</span>
+          <span class="mobile-value">{{pessoa.endereco.logradouro}} {{ pessoa.endereco.numero }},
+            {{ pessoa.endereco.bairro }}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Cidade Column -->
+      <ng-container matColumnDef="cidade">
+        <mat-header-cell *matHeaderCellDef>Cidade</mat-header-cell>
+        <mat-cell *matCellDef="let pessoa">
+          <span class="mobile-label">Cidade:</span>
+          <span class="mobile-value">{{pessoa.endereco.cidade}} {{ pessoa.endereco.estado }}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Ativo Column -->
+      <ng-container matColumnDef="ativo">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'col-small-width'">Status</mat-header-cell>
+        <mat-cell *matCellDef="let pessoa" [ngClass]="'col-small-width'">
+          <span class="mobile-label">Status:</span>
+          <span class="mobile-value"> <a href="javascript:;"
+              (click)="alterarStatus(pessoa)">{{pessoa.ativo ? 'Ativo' : 'Inativo'}}</a></span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Acoes Column -->
+      <ng-container matColumnDef="acoes">
+        <mat-header-cell *matHeaderCellDef class="text-center"> </mat-header-cell>
+        <mat-cell *matCellDef="let pessoa" class="mat-col-actions">
+
+          <a mat-button matTooltip="Editar" [matTooltipPosition]="'above'" (click)="editar(pessoa)"
+            *ngIf="authService.temPermissao('ROLE_REMOVER_PESSOA')">
+            <mat-icon>edit</mat-icon>
+          </a>
+
+          <a mat-button matTooltip="Excluir" [matTooltipPosition]="'above'" (click)="excluirConfirmacao(pessoa)"
+            *ngIf="authService.temPermissao('ROLE_CADASTRAR_PESSOA')">
+            <mat-icon>delete</mat-icon>
+          </a>
+
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [length]="totalItens" [pageSize]="tamanhoPagina" (page)="alterarPagina($event)" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+
+  <mat-card *ngIf="dataSource.data.length <= 0">Não foi encontrado nenhum lançamento</mat-card>
+
+</section>

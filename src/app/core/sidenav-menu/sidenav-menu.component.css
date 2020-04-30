@@ -1,0 +1,36 @@
+.sidenav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #ffffff;
+  border: none;
+}
+
+.sidenav-menu-user {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #303F9F;
+}
+
+.menu-user-logged {
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 64px;
+  margin: 0 10px;
+}
+
+.sidenav-menu-item>div {
+  padding: 20px;
+}
+
+.sidenav-menu-item a {
+  text-decoration: none;
+  color: white;
+}
+
+.sidenav-menu-item:hover {
+  background-color: #5C6BC0;
+}
+
+.sidenav-menu-item.active {
+  background-color: #5C6BC0;
+}
